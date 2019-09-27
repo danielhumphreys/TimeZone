@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Timezone
 {
@@ -11,11 +7,28 @@ namespace Timezone
     {        
         static void Main(string[] args)
         {
-            Parser timeZoneParser = new Parser();
-            using (Reader fileReader = new Reader())
+            try
             {
-                List<Tuple<string, string>> lTimes = fileReader.Read();
+                Parser timeZoneParser = new Parser();
+                using (Reader fileReader = new Reader())
+                {
+                    List<Tuple<string, string>> lTimes = fileReader.Read();
+                    foreach (var time in lTimes)
+                    {
+                        timeZoneParser.DisplayTime(time.Item1, time.Item2);
+                    }
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(@"Program failed to execute successfully." + 
+                                  Environment.NewLine + 
+                                  "Stacktrace:" + 
+                                  Environment.NewLine + 
+                                  e.StackTrace);
+            }
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }
